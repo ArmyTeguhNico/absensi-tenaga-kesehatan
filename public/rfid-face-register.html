@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RFID & Face Registration - Sistem Absensi</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <i class="fas fa-hospital-user"></i>
+      <span>Absensi Kesehatan</span>
+    </div>
+    <div class="navbar-user">
+      <span id="userName">Admin</span>
+      <button id="logoutBtn" class="btn btn-sm btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="admin.html">
+          <i class="fas fa-dashboard"></i> Dashboard
+        </a></li>
+        <li><a href="admin.html#manageUsers">
+          <i class="fas fa-users"></i> Kelola Pegawai
+        </a></li>
+        <li><a href="rfid-face-register.html" class="active">
+          <i class="fas fa-id-card"></i> RFID & Face
+        </a></li>
+        <li><a href="admin.html#allAttendance">
+          <i class="fas fa-list"></i> Data Absensi
+        </a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h2><i class="fas fa-id-card"></i> Registrasi RFID & Face Recognition</h2>
+      
+      <!-- User Selection -->
+      <div class="card">
+        <div class="card-header">
+          <h3><i class="fas fa-user-circle"></i> Pilih Pegawai</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Cari Pegawai</label>
+            <div class="search-container">
+              <input type="text" id="searchUser" class="form-control" placeholder="Ketik nama atau NIP pegawai...">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+          <div id="usersList" class="users-grid">
+            <p class="loading">Memuat data pegawai...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RFID & Face Registration Panel (Hidden until user selected) -->
+      <div id="registrationPanel" style="display: none;">
+        <!-- Selected User Info -->
+        <div class="card user-info-card">
+          <div class="card-body">
+            <div class="user-info-header">
+              <div class="user-avatar">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <div class="user-details">
+                <h3 id="selectedUserName">-</h3>
+                <p><strong>NIP:</strong> <span id="selectedUserNip">-</span></p>
+                <p><strong>Email:</strong> <span id="selectedUserEmail">-</span></p>
+              </div>
+              <button class="btn btn-secondary" onclick="clearSelection()">
+                <i class="fas fa-times"></i> Ganti Pegawai
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="registration-grid">
+          <!-- RFID Registration -->
+          <div class="card rfid-card">
+            <div class="card-header">
+              <h3><i class="fas fa-id-card"></i> Registrasi RFID Card</h3>
+              <span id="rfidStatus" class="badge badge-secondary">Belum Terdaftar</span>
+            </div>
+            <div class="card-body">
+              <div class="rfid-visual">
+                <div class="rfid-icon">
+                  <i class="fas fa-credit-card"></i>
+                  <div class="rfid-waves">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <p class="rfid-instruction">Tap kartu RFID pada reader</p>
+              </div>
+
+              <div class="form-group">
+                <label>UID Kartu RFID</label>
+                <input type="text" id="rfidUid" class="form-control" placeholder="Masukkan atau scan UID RFID">
+                <small class="form-hint">Format: 04:A3:B2:C1 atau A3B2C104</small>
+              </div>
+
+              <div class="current-rfid" id="currentRfid" style="display: none;">
+                <div class="info-box">
+                  <i class="fas fa-info-circle"></i>
+                  <div>
+                    <strong>RFID Terdaftar:</strong>
+                    <p id="currentRfidUid">-</p>
+                    <small id="currentRfidDate">-</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button id="btnRegisterRfid" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Daftarkan RFID
+                </button>
+                <button id="btnTestRfid" class="btn btn-info">
+                  <i class="fas fa-vial"></i> Test RFID
+                </button>
+                <button id="btnDeleteRfid" class="btn btn-danger" style="display: none;">
+                  <i class="fas fa-trash"></i> Hapus RFID
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Face Recognition -->
+          <div class="card face-card">
+            <div class="card-header">
+              <h3><i class="fas fa-face-smile"></i> Registrasi Face Recognition</h3>
+              <span id="faceStatus" class="badge badge-secondary">Belum Terdaftar</span>
+            </div>
+            <div class="card-body">
+              <div class="face-capture">
+                <video id="videoPreview" autoplay muted></video>
+                <canvas id="canvasCapture" style="display: none;"></canvas>
+                <div class="face-overlay">
+                  <div class="face-guide"></div>
+                </div>
+              </div>
+
+              <div class="face-photos-grid" id="capturedPhotos">
+                <!-- Captured photos will appear here -->
+              </div>
+
+              <div class="form-group">
+                <label>Jumlah Foto Training: <span id="photoCount">0</span>/5</label>
+                <div class="progress-bar">
+                  <div id="photoProgress" class="progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="button-group">
+                <button id="btnStartCamera" class="btn btn-primary">
+                  <i class="fas fa-camera"></i> Aktifkan Kamera
+                </button>
+                <button id="btnCapturePhoto" class="btn btn-success" disabled>
+                  <i class="fas fa-camera"></i> Ambil Foto
+                </button>
+                <button id="btnSaveFace" class="btn btn-primary" disabled>
+                  <i class="fas fa-save"></i> Simpan Data Wajah
+                </button>
+                <button id="btnDeleteFace" class="btn btn-danger" style="display: none;">
+                  <i class="fas fa-trash"></i> Hapus Data Wajah
+                </button>
+              </div>
+
+              <div class="face-tips">
+                <p><i class="fas fa-lightbulb"></i> <strong>Tips:</strong></p>
+                <ul>
+                  <li>Pastikan wajah menghadap kamera dengan jelas</li>
+                  <li>Cahaya cukup terang dan merata</li>
+                  <li>Ambil 3-5 foto dari sudut berbeda</li>
+                  <li>Jangan gunakan kacamata gelap atau masker</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner">
+      <i class="fas fa-circle-notch fa-spin"></i>
+      <p id="loadingText">Memproses...</p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/rfid-face-register.js"></script>
+</body>
+</html>

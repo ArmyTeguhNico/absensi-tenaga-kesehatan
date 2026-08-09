@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Absensi Tenaga Kesehatan</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login-style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="loginPage" class="page active">
+    <!-- Animated Background -->
+    <div class="login-background">
+      <div class="bg-gradient"></div>
+      <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+      </div>
+      <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+      <div class="login-box glass-effect">
+        <!-- Logo & Header -->
+        <div class="login-header">
+          <div class="logo-container">
+            <div class="logo-circle">
+              <i class="fas fa-hospital-user"></i>
+            </div>
+            <div class="logo-pulse"></div>
+          </div>
+          <h1 class="login-title">Sistem Absensi</h1>
+          <p class="login-subtitle">Tenaga Kesehatan</p>
+          <div class="title-divider"></div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="email">
+              <i class="fas fa-envelope"></i> Email
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required 
+                placeholder="nama@email.com"
+                autocomplete="email"
+              >
+              <span class="input-highlight"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">
+              <i class="fas fa-lock"></i> Password
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                placeholder="Masukkan password"
+                autocomplete="current-password"
+              >
+              <button type="button" class="toggle-password" id="togglePassword">
+                <i class="fas fa-eye"></i>
+              </button>
+              <span class="input-highlight"></span>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input type="checkbox" id="rememberMe">
+              <span class="checkmark"></span>
+              <span>Ingat Saya</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-login">
+            <span class="btn-text">
+              <i class="fas fa-sign-in-alt"></i> Masuk
+            </span>
+            <span class="btn-loading" style="display: none;">
+              <i class="fas fa-circle-notch fa-spin"></i> Memproses...
+            </span>
+          </button>
+        </form>
+
+        <!-- Login Error -->
+        <div id="loginError" class="alert alert-danger glass-alert" style="display: none;"></div>
+
+        <!-- Footer Info -->
+        <div class="login-footer">
+          <p class="login-info">
+            <i class="fas fa-info-circle"></i> 
+            Demo: armyteguh00@gmail.com / Admin123!
+          </p>
+          <div class="login-features">
+            <div class="feature-item">
+              <i class="fas fa-shield-alt"></i>
+              <span>Aman & Terenkripsi</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-mobile-alt"></i>
+              <span>Akses Multi-Device</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-clock"></i>
+              <span>Real-time</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info Card -->
+      <div class="info-card glass-effect">
+        <div class="info-header">
+          <i class="fas fa-fingerprint"></i>
+          <h3>Fitur Absensi</h3>
+        </div>
+        <ul class="feature-list">
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Absensi Real-time</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Riwayat Lengkap</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Pengajuan Izin/Cuti</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>Dashboard Statistik</span>
+          </li>
+          <li>
+            <i class="fas fa-check-circle"></i>
+            <span>RFID & Face Recognition</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="appPage" class="page">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <i class="fas fa-hospital-user"></i>
+        <span>Absensi Kesehatan</span>
+      </div>
+      <div class="navbar-user">
+        <span id="userName">User</span>
+        <button id="logoutBtn" class="btn btn-sm btn-danger">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <ul class="sidebar-menu" id="sidebarMenu">
+          <!-- Menu items will be populated by JavaScript -->
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard User -->
+        <div id="dashboardUser" class="content-section">
+          <h2><i class="fas fa-home"></i> Dashboard</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-success">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statHadir">0</h3>
+                <p>Hadir Bulan Ini</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-warning">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statTelat">0</h3>
+                <p>Terlambat</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-danger">
+                <i class="fas fa-times-circle"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statAlpha">0</h3>
+                <p>Alpha</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-info">
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statIzin">0</h3>
+                <p>Izin/Cuti</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-header">
+              <h3><i class="fas fa-clock"></i> Status Absensi Hari Ini</h3>
+            </div>
+            <div class="card-body">
+              <div id="todayStatus" class="today-status">
+                <p class="loading">Memuat data...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Absensi Page -->
+        <div id="absensiPage" class="content-section">
+          <h2><i class="fas fa-fingerprint"></i> Absensi</h2>
+          <div class="card">
+            <div class="card-body">
+              <div class="absensi-container">
+                <div class="absensi-info">
+                  <div class="absensi-time">
+                    <div id="currentTime" class="time-display">00:00:00</div>
+                    <div id="currentDate" class="date-display">Senin, 1 Januari 2024</div>
+                  </div>
+                </div>
+                <div class="absensi-actions">
+                  <button id="checkInBtn" class="btn btn-success btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Absen Masuk
+                  </button>
+                  <button id="checkOutBtn" class="btn btn-danger btn-lg" disabled>
+                    <i class="fas fa-sign-out-alt"></i> Absen Pulang
+                  </button>
+                </div>
+                <div class="form-group mt-3">
+                  <label for="absenNotes">Catatan (Opsional)</label>
+                  <textarea id="absenNotes" class="form-control" rows="3" placeholder="Tambahkan catatan jika perlu"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Riwayat Page -->
+        <div id="riwayatPage" class="content-section">
+          <h2><i class="fas fa-history"></i> Riwayat Absensi</h2>
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Masuk</th>
+                      <th>Pulang</th>
+                      <th>Status</th>
+                      <th>Catatan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="riwayatTable">
+                    <tr>
+                      <td colspan="5" class="text-center">Memuat data...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Izin/Cuti Page -->
+        <div id="izinPage" class="content-section">
+          <h2><i class="fas fa-file-alt"></i> Pengajuan Izin/Cuti</h2>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Ajukan Izin/Cuti</h3>
+                </div>
+                <div class="card-body">
+                  <form id="leaveForm">
+                    <div class="form-group">
+                      <label>Jenis</label>
+                      <select id="leaveType" class="form-control" required>
+                        <option value="">Pilih Jenis</option>
+                        <option value="izin">Izin</option>
+                        <option value="sakit">Sakit</option>
+                        <option value="cuti">Cuti</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Tanggal Mulai</label>
+                      <input type="date" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Tanggal Selesai</label>
+                      <input type="date" id="endDate" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Alasan</label>
+                      <textarea id="leaveReason" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-paper-plane"></i> Ajukan
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Riwayat Pengajuan</h3>
+                </div>
+                <div class="card-body">
+                  <div id="leaveHistory">
+                    <p class="loading">Memuat data...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="content-section">
+          <h2><i class="fas fa-user"></i> Profile</h2>
+          <div class="card">
+            <div class="card-body">
+              <div id="profileInfo">
+                <p class="loading">Memuat data...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Toggle Password Visibility
+    document.getElementById('togglePassword')?.addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    });
+
+    // Enhanced Login Form Submit
+    const originalLoginForm = document.getElementById('loginForm');
+    if (originalLoginForm) {
+      originalLoginForm.addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('.btn-login');
+        submitBtn.classList.add('loading');
+        
+        // Reset loading state after submit
+        setTimeout(() => {
+          submitBtn.classList.remove('loading');
+        }, 3000);
+      });
+    }
+
+    // Remember Me functionality
+    window.addEventListener('DOMContentLoaded', function() {
+      const rememberMe = localStorage.getItem('rememberMe');
+      const savedEmail = localStorage.getItem('savedEmail');
+      
+      if (rememberMe === 'true' && savedEmail) {
+        document.getElementById('email').value = savedEmail;
+        document.getElementById('rememberMe').checked = true;
+      }
+    });
+
+    // Save Remember Me preference
+    document.getElementById('loginForm')?.addEventListener('submit', function() {
+      const rememberMe = document.getElementById('rememberMe').checked;
+      const email = document.getElementById('email').value;
+      
+      if (rememberMe) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('savedEmail', email);
+      } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('savedEmail');
+      }
+    });
+  </script>
+</body>
+</html>
