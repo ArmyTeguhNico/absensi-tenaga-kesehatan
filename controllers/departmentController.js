@@ -1,13 +1,18 @@
-const db = require('../database/config');
+const supabase = require('../database/config');
 
 // Get all departments
 exports.getAllDepartments = async (req, res) => {
   try {
-    const [departments] = await db.query('SELECT * FROM departments ORDER BY name ASC');
+    const { data: departments, error } = await supabase
+      .from('departments')
+      .select('*')
+      .order('name', { ascending: true });
+    
+    if (error) throw error;
     
     res.json({
       success: true,
-      data: departments
+      data: departments || []
     });
   } catch (error) {
     console.error('Get all departments error:', error);
@@ -21,11 +26,16 @@ exports.getAllDepartments = async (req, res) => {
 // Get all positions
 exports.getAllPositions = async (req, res) => {
   try {
-    const [positions] = await db.query('SELECT * FROM positions ORDER BY name ASC');
+    const { data: positions, error } = await supabase
+      .from('positions')
+      .select('*')
+      .order('name', { ascending: true });
+    
+    if (error) throw error;
     
     res.json({
       success: true,
-      data: positions
+      data: positions || []
     });
   } catch (error) {
     console.error('Get all positions error:', error);
@@ -41,15 +51,17 @@ exports.createDepartment = async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    const [result] = await db.query(
-      'INSERT INTO departments (name, description) VALUES (?, ?)',
-      [name, description]
-    );
+    const { data, error } = await supabase
+      .from('departments')
+      .insert([{ name, description }])
+      .select();
+
+    if (error) throw error;
 
     res.status(201).json({
       success: true,
       message: 'Departemen berhasil dibuat',
-      data: { id: result.insertId }
+      data: data[0]
     });
   } catch (error) {
     console.error('Create department error:', error);
@@ -65,15 +77,17 @@ exports.createPosition = async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    const [result] = await db.query(
-      'INSERT INTO positions (name, description) VALUES (?, ?)',
-      [name, description]
-    );
+    const { data, error } = await supabase
+      .from('positions')
+      .insert([{ name, description }])
+      .select();
+
+    if (error) throw error;
 
     res.status(201).json({
       success: true,
       message: 'Jabatan berhasil dibuat',
-      data: { id: result.insertId }
+      data: data[0]
     });
   } catch (error) {
     console.error('Create position error:', error);
