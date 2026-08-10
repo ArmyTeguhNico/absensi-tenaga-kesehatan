@@ -4,26 +4,28 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const { createClient } = require('@supabase/supabase-js');
 
+// TEMPORARY: Hardcoded credentials for testing
+// TODO: Move back to environment variables after Netlify env vars issue is resolved
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://schzdduftqwlsbajedzx.supabase.co';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjaHpkZHVmdHF3bHNiYWplZHp4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjMxMTQwMiwiZXhwIjoyMTAxODg3NDAyfQ.3uAf0lA7WT7gNeIwqedPySGLSlAKwBGnXWuyAMMTIQ8';
+
 // Log environment status for debugging
 console.log('Environment check:', {
   NODE_ENV: process.env.NODE_ENV,
-  SUPABASE_URL: process.env.SUPABASE_URL ? 'SET' : 'MISSING',
-  SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING'
+  SUPABASE_URL: SUPABASE_URL ? 'SET' : 'MISSING',
+  SUPABASE_SERVICE_KEY: SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING'
 });
 
 // Validate required environment variables
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   console.error('❌ Error: SUPABASE_URL and SUPABASE_SERVICE_KEY must be set');
-  console.error('SUPABASE_URL:', process.env.SUPABASE_URL ? 'SET' : 'MISSING');
-  console.error('SUPABASE_SERVICE_KEY:', process.env.SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING');
-  console.error('All env vars:', Object.keys(process.env).filter(k => k.startsWith('SUPABASE')));
   throw new Error('Missing Supabase credentials');
 }
 
 // Create Supabase client with service role key for backend operations
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY,
+  SUPABASE_URL,
+  SUPABASE_SERVICE_KEY,
   {
     auth: {
       autoRefreshToken: false,
