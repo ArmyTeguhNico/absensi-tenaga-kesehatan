@@ -1,6 +1,6 @@
 # 🚀 DEPLOY KE NETLIFY SAJA (All-in-One)
 
-## ✅ **SETUP SELESAI!**
+## ✅ **SETUP SELESAI!** - Updated v2
 
 Saya sudah convert backend Anda jadi **Netlify Functions**!
 
