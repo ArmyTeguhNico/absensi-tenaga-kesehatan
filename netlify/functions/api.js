@@ -17,6 +17,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
+    'https://absensitenkesrs.netlify.app',
     'https://absensitenkes.netlify.app'
   ],
   credentials: true,
