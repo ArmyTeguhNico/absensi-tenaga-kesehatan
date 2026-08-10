@@ -1,0 +1,105 @@
+========================================
+NETLIFY ENVIRONMENT VARIABLES
+========================================
+
+Copy-paste 8 variables ini ke Netlify:
+Site settings → Environment variables → Add variable
+
+========================================
+Variable 1:
+========================================
+Key:
+SUPABASE_URL
+
+Value:
+https://schzdduftqwlsbajedzx.supabase.co
+
+========================================
+Variable 2:
+========================================
+Key:
+SUPABASE_ANON_KEY
+
+Value:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjaHpkZHVmdHF3bHNiYWplZHp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYzMTE0MDIsImV4cCI6MjEwMTg4NzQwMn0._zcyTKo7-WzafAoMne9Jgvv3QjQSf6UB7zlMF03M-U8
+
+========================================
+Variable 3:
+========================================
+Key:
+SUPABASE_SERVICE_KEY
+
+Value:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjaHpkZHVmdHF3bHNiYWplZHp4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjMxMTQwMiwiZXhwIjoyMTAxODg3NDAyfQ.3uAf0lA7WT7gNeIwqedPySGLSlAKwBGnXWuyAMMTIQ8
+
+========================================
+Variable 4:
+========================================
+Key:
+JWT_SECRET
+
+Value:
+absensi-tenaga-kesehatan-secret-key-2024
+
+========================================
+Variable 5:
+========================================
+Key:
+JWT_EXPIRE
+
+Value:
+7d
+
+========================================
+Variable 6:
+========================================
+Key:
+NODE_ENV
+
+Value:
+production
+
+========================================
+Variable 7:
+========================================
+Key:
+ADMIN_EMAIL
+
+Value:
+armyteguh00@gmail.com
+
+========================================
+Variable 8:
+========================================
+Key:
+ADMIN_PASSWORD
+
+Value:
+Admin123!
+
+========================================
+TOTAL: 8 VARIABLES
+========================================
+
+CARA PAKAI:
+1. Login ke Netlify: https://app.netlify.com
+2. Pilih site Anda
+3. Site settings → Environment variables
+4. Klik "Add a variable"
+5. Copy Key dari atas → Paste ke Netlify
+6. Copy Value dari atas → Paste ke Netlify
+7. Klik "Save"
+8. Ulangi untuk 8 variables
+
+Setelah semua ditambahkan:
+- Deploys → Trigger deploy → Deploy site
+- Tunggu 2-3 menit
+- Test: https://yoursite.netlify.app/api/health
+
+========================================
+LOGIN CREDENTIALS
+========================================
+Email:    armyteguh00@gmail.com
+Password: Admin123!
+
+========================================
