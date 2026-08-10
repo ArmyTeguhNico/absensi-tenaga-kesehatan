@@ -4,11 +4,19 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const { createClient } = require('@supabase/supabase-js');
 
+// Log environment status for debugging
+console.log('Environment check:', {
+  NODE_ENV: process.env.NODE_ENV,
+  SUPABASE_URL: process.env.SUPABASE_URL ? 'SET' : 'MISSING',
+  SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING'
+});
+
 // Validate required environment variables
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
   console.error('❌ Error: SUPABASE_URL and SUPABASE_SERVICE_KEY must be set');
   console.error('SUPABASE_URL:', process.env.SUPABASE_URL ? 'SET' : 'MISSING');
   console.error('SUPABASE_SERVICE_KEY:', process.env.SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING');
+  console.error('All env vars:', Object.keys(process.env).filter(k => k.startsWith('SUPABASE')));
   throw new Error('Missing Supabase credentials');
 }
 
