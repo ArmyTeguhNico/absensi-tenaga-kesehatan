@@ -26,16 +26,16 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/attendance', attendanceRoutes);
-app.use('/api/leaves', leaveRoutes);
-app.use('/api', departmentRoutes);
-app.use('/api/rfid-face', rfidFaceRoutes);
+// API Routes - Remove /api prefix since it's already in the URL path
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/attendance', attendanceRoutes);
+app.use('/leaves', leaveRoutes);
+app.use('/', departmentRoutes);
+app.use('/rfid-face', rfidFaceRoutes);
 
-// Health check
-app.get('/api/health', (req, res) => {
+// Health check - at root of function
+app.get('/health', (req, res) => {
   res.json({
     success: true,
     message: 'Netlify Functions API is running',

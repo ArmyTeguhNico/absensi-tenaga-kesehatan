@@ -1,8 +1,12 @@
 # Netlify Configuration for Functions
 [build]
   publish = "public"
-  command = "npm install"
+  command = "npm install --production=false"
   functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["controllers/**", "routes/**", "database/**", "middleware/**"]
 
 # Redirect API calls to Netlify Functions
 [[redirects]]
