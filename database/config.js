@@ -13,9 +13,9 @@ const { createClient } = require('@supabase/supabase-js');
 
 // Get credentials from environment or use fallback
 // IMPORTANT: These are fallback values for Netlify deployment
-// Updated to match the actual Supabase project from netlify.env
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tbjshustaqijmbtxssod.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRianNodXN0YXFpam1idHhzc29kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjEwNzk0OSwiZXhwIjoyMTAxNjgzOTQ5fQ.Y_tdjt1SPC8NrEGZqKf4qywh_OpdvPMfKlXmhFVbbRY';
+// Updated to match the actual active Supabase project
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://schzdduftqwlsbajedzx.supabase.co';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjaHpkZHVmdHF3bHNiYWplZHp4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjMxMTQwMiwiZXhwIjoyMTAxODg3NDAyfQ.3uAf0lA7WT7gNeIwqedPySGLSlAKwBGnXWuyAMMTIQ8';
 
 // Enhanced logging for debugging
 console.log('═══════════════════════════════════════');
