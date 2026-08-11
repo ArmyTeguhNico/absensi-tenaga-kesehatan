@@ -49,7 +49,7 @@ After deploying, test the function:
 
 ```bash
 # Check health endpoint
-curl https://absensitenkesrs.netlify.app/.netlify/functions/api/health
+curl https://absensitenkes.netlify.app/.netlify/functions/api/health
 ```
 
 Expected response:
