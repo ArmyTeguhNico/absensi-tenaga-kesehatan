@@ -1,25 +1,46 @@
-// Load environment variables (optional in Netlify - env vars are injected)
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
+// Load environment variables 
+// In Netlify Functions, env vars are automatically injected
+// In local dev, load from .env file
+try {
+  if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+  }
+} catch (err) {
+  console.log('dotenv not loaded (normal in Netlify):', err.message);
 }
+
 const { createClient } = require('@supabase/supabase-js');
 
-// TEMPORARY: Hardcoded credentials for testing
-// TODO: Move back to environment variables after Netlify env vars issue is resolved
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://schzdduftqwlsbajedzx.supabase.co';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjaHpkZHVmdHF3bHNiYWplZHp4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjMxMTQwMiwiZXhwIjoyMTAxODg3NDAyfQ.3uAf0lA7WT7gNeIwqedPySGLSlAKwBGnXWuyAMMTIQ8';
+// Get credentials from environment or use fallback
+// IMPORTANT: These are fallback values for Netlify deployment
+// Updated to match the actual Supabase project from netlify.env
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tbjshustaqijmbtxssod.supabase.co';
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRianNodXN0YXFpam1idHhzc29kIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NjEwNzk0OSwiZXhwIjoyMTAxNjgzOTQ5fQ.Y_tdjt1SPC8NrEGZqKf4qywh_OpdvPMfKlXmhFVbbRY';
 
-// Log environment status for debugging
-console.log('Environment check:', {
-  NODE_ENV: process.env.NODE_ENV,
-  SUPABASE_URL: SUPABASE_URL ? 'SET' : 'MISSING',
-  SUPABASE_SERVICE_KEY: SUPABASE_SERVICE_KEY ? 'SET' : 'MISSING'
-});
+// Enhanced logging for debugging
+console.log('═══════════════════════════════════════');
+console.log('🔧 Supabase Configuration Check');
+console.log('═══════════════════════════════════════');
+console.log('Environment:', process.env.NODE_ENV || 'development');
+console.log('URL from env:', process.env.SUPABASE_URL ? 'YES' : 'NO');
+console.log('Key from env:', process.env.SUPABASE_SERVICE_KEY ? 'YES' : 'NO');
+console.log('Final URL:', SUPABASE_URL ? `${SUPABASE_URL.substring(0, 35)}...` : 'MISSING!');
+console.log('Final Key Length:', SUPABASE_SERVICE_KEY ? SUPABASE_SERVICE_KEY.length : 0);
+console.log('Using Fallback:', !(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY));
+console.log('═══════════════════════════════════════');
 
-// Validate required environment variables
-if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-  console.error('❌ Error: SUPABASE_URL and SUPABASE_SERVICE_KEY must be set');
-  throw new Error('Missing Supabase credentials');
+// Final validation - this should never fail now
+if (!SUPABASE_URL || SUPABASE_URL === '' || !SUPABASE_SERVICE_KEY || SUPABASE_SERVICE_KEY === '') {
+  const errorDetail = {
+    url_present: !!SUPABASE_URL,
+    url_empty: SUPABASE_URL === '',
+    key_present: !!SUPABASE_SERVICE_KEY,
+    key_empty: SUPABASE_SERVICE_KEY === '',
+    env_vars: Object.keys(process.env).filter(k => k.includes('SUPABASE'))
+  };
+  console.error('❌ CRITICAL: Supabase credentials validation failed');
+  console.error('Details:', JSON.stringify(errorDetail, null, 2));
+  throw new Error('Missing Supabase credentials - check environment variables');
 }
 
 // Create Supabase client with service role key for backend operations
